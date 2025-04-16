@@ -26,7 +26,7 @@ exports.getSchemas = (folder) => {
 
   fs.readdirSync(folder).forEach((file) => {
     const filename = file.split(".").slice(0, -1).join(".")
-    map[filename] = require(path.join(process.cwd(), folder, file))
+    map[filename] = require(path.join(folder, file))
   })
 
   return map
