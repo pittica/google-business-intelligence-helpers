@@ -19,9 +19,35 @@ const {
   hasSchema,
 } = require("./contents/schema")
 const { getSqlFilePath } = require("./contents/sql")
+const {
+  getTemporaryTableName,
+  getTemporaryTableSuffix,
+} = require("./naming/dataset")
+const { partsToDate, stringToDate } = require("./naming/date")
+const {
+  getFilenameVersion,
+  getJsonStorageName,
+  createFilename,
+  mergeFilename,
+} = require("./naming/file")
+const { splitName, splitIdByKeys } = require("./naming/split")
+const { scriptUnlistened } = require("./scripts/unlistened")
 
 exports.getSchemas = getSchemas
 exports.getSchema = getSchema
 exports.getSchemaKeys = getSchemaKeys
 exports.hasSchema = hasSchema
 exports.getSqlFilePath = getSqlFilePath
+exports.getTemporaryTableName = getTemporaryTableName
+exports.getTemporaryTableSuffix = getTemporaryTableSuffix
+exports.partsToDate = partsToDate
+exports.stringToDate = stringToDate
+exports.getFilenameVersion = getFilenameVersion
+exports.getJsonStorageName = getJsonStorageName
+exports.createFilename = createFilename
+exports.mergeFilename = mergeFilename
+exports.splitName = splitName
+exports.splitIdByKeys = splitIdByKeys
+exports.scripts = {
+  unlistened: scriptUnlistened,
+}
