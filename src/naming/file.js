@@ -68,7 +68,8 @@ exports.createFilename = (filedata) =>
  * @param {Date} date File date.
  * @param {string} name File or function name.
  * @param {string} extension File extension.
+ * @param {int} version File version.
  * @returns {string} The merged given filename parts.
  */
-exports.mergeFilename = (date, name, extension) =>
-  `${format(date, "YYYY-MM-DD")}-${name}.${extension.toLowerCase()}`
+exports.mergeFilename = (date, name, extension, version = 0) =>
+  `${format(date, "YYYY-MM-DD")}-${name}${version ? `_${version}` : ""}.${extension.toLowerCase()}`
