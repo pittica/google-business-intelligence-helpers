@@ -29,6 +29,19 @@ exports.getFilenameVersion = (name) => {
 }
 
 /**
+ * Increments the version of a filename in the given filedata.
+ *
+ * @param {object} filedata File data.
+ * @returns {number} The given file data.
+ */
+exports.incrementFilenameVersion = (filedata) => {
+  filedata.version =
+    typeof filedata.version !== "undefined" ? filedata.version + 1 : 1
+
+  return filedata
+}
+
+/**
  * Gets the name of a JSON storage file.
  *
  * @param {Date} date Date object.
@@ -41,7 +54,7 @@ exports.getJsonStorageName = (date, file) =>
 /**
  * Generates a filename from the givend data.
  *
- * @param {object} filedata File date.
+ * @param {object} filedata File data.
  * @returns {string} A filename from the givend data.
  */
 exports.createFilename = (filedata) =>

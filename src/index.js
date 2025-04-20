@@ -27,6 +27,7 @@ const {
 const { partsToDate, stringToDate } = require("./naming/date")
 const {
   getFilenameVersion,
+  incrementFilenameVersion,
   getJsonStorageName,
   createFilename,
   mergeFilename,
@@ -45,6 +46,7 @@ exports.getTemporaryTableSuffix = getTemporaryTableSuffix
 exports.partsToDate = partsToDate
 exports.stringToDate = stringToDate
 exports.getFilenameVersion = getFilenameVersion
+exports.incrementFilenameVersion = incrementFilenameVersion
 exports.getJsonStorageName = getJsonStorageName
 exports.createFilename = createFilename
 exports.mergeFilename = mergeFilename
