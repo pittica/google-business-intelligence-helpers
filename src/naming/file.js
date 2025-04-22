@@ -92,7 +92,7 @@ exports.mergeFiledata = (
   { date, name, extension, version },
   increment = false
 ) =>
-  mergeFilename(
+  this.mergeFilename(
     date,
     name,
     extension,
