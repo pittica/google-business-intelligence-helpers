@@ -32,6 +32,7 @@ const {
   getJsonStorageName,
   createFilename,
   mergeFilename,
+  mergeFiledata,
 } = require("./naming/file")
 const { splitName, splitIdByKeys } = require("./naming/split")
 const { scriptUnlistened } = require("./scripts/unlistened")
@@ -52,6 +53,7 @@ exports.incrementFilenameVersion = incrementFilenameVersion
 exports.getJsonStorageName = getJsonStorageName
 exports.createFilename = createFilename
 exports.mergeFilename = mergeFilename
+exports.mergeFiledata = mergeFiledata
 exports.splitName = splitName
 exports.splitIdByKeys = splitIdByKeys
 exports.scripts = {
