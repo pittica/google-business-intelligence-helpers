@@ -55,22 +55,34 @@ exports.mapStorageResponse = (response, schemas = "") => {
  * @param {string} folder Google Storage folder path.
  * @returns {object} A safe name of a file in the given folder in the given bucket.
  */
-exports.getSafeFilename = async (storage, bucket, filename, folder = "") =>
-  await getFiles(
-    storage,
-    bucket,
-    folder ? `${folder}/${filename}` : filename
-  ).then((response) => {
-    const file = response
-      .flat(3)
-      .filter(({ name }) => typeof name !== "undefined")
-      .map(({ name }) =>
-        folder ? name.replace(new RegExp(`^${folder}\/`, "gs"), "") : name
-      )
-      .slice(-1)
-      .pop()
+exports.getSafeFilename = (storage, bucket, filename, folder = "") =>
+  getFiles(storage, bucket, folder ? `${folder}/${filename}` : filename).then(
+    (response) => {
+      const file = response
+        .flat(3)
+        .filter(({ name }) => typeof name !== "undefined")
+        .map(({ name }) =>
+          folder ? name.replace(new RegExp(`^${folder}\/`, "gs"), "") : name
+        )
+        .slice(-1)
+        .pop()
 
-    return typeof file !== "undefined" && file
-      ? incrementFilenameVersion(splitName(file))
-      : splitName(filename)
-  })
+      return typeof file !== "undefined" && file
+        ? incrementFilenameVersion(splitName(file))
+        : splitName(filename)
+    }
+  )
+
+/**
+ * Ritrieves a safe name of a file in the given folder in the given bucket.
+ *
+ * @param {Bucket} bucket Bucket.
+ * @param {string} filename File name.
+ * @param {string} folder Google Storage folder path.
+ * @returns {object} A safe name of a file in the given folder in the given bucket.
+ */
+exports.getSafeFilenameFromBucket = (
+  { storage, name },
+  filename,
+  folder = ""
+) => this.getSafeFilename(storage, name, filename, folder)
