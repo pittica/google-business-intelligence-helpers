@@ -22,7 +22,7 @@ const { splitName } = require("../naming/split")
  * @param {string} schemas Schema files folder path.
  * @returns {object} Mapped response.
  */
-exports.mapStorageResponse = (response, schemas) => {
+exports.mapStorageResponse = (response, schemas = "") => {
   const files = {}
 
   if (schemas) {
