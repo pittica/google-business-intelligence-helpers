@@ -25,7 +25,9 @@ const { splitName } = require("../naming/split")
 exports.mapStorageResponse = (response, schemas) => {
   const files = {}
 
-  getSchemaKeys(schemas).map((key) => (files[key] = []))
+  if (schemas) {
+    getSchemaKeys(schemas).map((key) => (files[key] = []))
+  }
 
   response.flat(3).forEach(({ id }) => {
     if (id) {
