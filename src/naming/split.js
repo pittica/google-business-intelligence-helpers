@@ -22,28 +22,39 @@ const { partsToDate } = require("./date")
  * @returns {object} An object containing the splitted name.
  */
 exports.splitName = (name) => {
-  const split = name.split(
-    /^(\d{4})\-(\d{2})\-(\d{2})\-(([\w_-]+)(?:\_[0-9]+)|([\w_-]+))(?:\.(\w+))$/gis
-  )
+  if (name) {
+    const split = name.split(
+      /^(\d{4})\-(\d{2})\-(\d{2})\-(([\w_-]+)(?:\_[0-9]+)|([\w_-]+))(?:\.(\w+))$/gis
+    )
 
-  if (split.length >= 8) {
-    return {
-      date: partsToDate(split),
-      name: typeof split[5] !== "undefined" ? split[5] : split[6],
-      fullname: typeof split[4] !== "undefined" ? split[4] : name,
-      extension: split[7],
-      match: true,
-      version:
-        typeof split[4] !== "undefined" ? getFilenameVersion(split[4]) : 0,
+    if (split.length >= 8) {
+      return {
+        date: partsToDate(split),
+        name: typeof split[5] !== "undefined" ? split[5] : split[6],
+        fullname: typeof split[4] !== "undefined" ? split[4] : name,
+        extension: split[7],
+        match: true,
+        version:
+          typeof split[4] !== "undefined" ? getFilenameVersion(split[4]) : 0,
+      }
+    } else {
+      return {
+        date: new Date(),
+        name,
+        fullname: name,
+        extension: /[.]/.exec(name) ? /[^.]+$/.exec(name) : undefined,
+        match: false,
+        version: getFilenameVersion(name),
+      }
     }
   } else {
     return {
       date: new Date(),
-      name,
-      fullname: name,
-      extension: /[.]/.exec(name) ? /[^.]+$/.exec(name) : undefined,
+      name: null,
+      fullname: null,
+      extension: undefined,
       match: false,
-      version: getFilenameVersion(name),
+      version: 0,
     }
   }
 }

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const { getFiles } = require("@pittica/google-cloud-storage-helpers")
 const { getSchemaKeys } = require("./schema")
 const { splitName } = require("../naming/split")
 
@@ -43,3 +44,28 @@ exports.mapStorageResponse = (response, schemas = "") => {
     .flat(1)
     .map((file) => splitName(file))
 }
+
+/**
+ * Ritrieves a safe name of a file in the given folder in the given bucket.
+ *
+ * @param {Storage} storage Google Cloud Storage object.
+ * @param {string} bucket Bucket name.
+ * @param {string} filename File name.
+ * @param {string} folder Google Storage folder path.
+ * @returns {object} A safe name of a file in the given folder in the given bucket.
+ */
+exports.getSafeFilename = async (storage, bucket, filename, folder = "") =>
+  await getFiles(
+    storage,
+    bucket,
+    folder ? `${folder}/${filename}` : filename
+  ).then((response) => {
+    const file = response
+      .flat(3)
+      .filter(({ name }) => typeof name !== "undefined")
+      .map(({ name }) => name)
+      .slice(-1)
+      .pop()
+
+    return splitName(typeof file !== "undefined" && file ? file : filename)
+  })
