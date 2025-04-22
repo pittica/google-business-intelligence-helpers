@@ -73,3 +73,21 @@ exports.createFilename = (filedata) =>
  */
 exports.mergeFilename = (date, name, extension, version = 0) =>
   `${format(date, "YYYY-MM-DD")}-${name}${version ? `_${version}` : ""}.${extension.toLowerCase()}`
+
+/**
+ * Merges the given filename data.
+ *
+ * @param {object} filedata Data to merge.
+ * @param {boolean} increment A value indicating whether the file version needs to be increased.
+ * @returns The merged given filename data.
+ */
+exports.mergeFiledata = (
+  { date, name, extension, version },
+  increment = false
+) =>
+  mergeFilename(
+    date,
+    name,
+    extension,
+    increment ? (typeof version !== "undefined" ? version + 1 : 1) : version
+  )
