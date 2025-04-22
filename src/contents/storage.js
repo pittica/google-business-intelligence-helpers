@@ -15,6 +15,7 @@
 const { getFiles } = require("@pittica/google-cloud-storage-helpers")
 const { getSchemaKeys } = require("./schema")
 const { splitName } = require("../naming/split")
+const { incrementFilenameVersion } = require("../naming/file")
 
 /**
  * Maps Google Cloud Storage response.
@@ -67,5 +68,7 @@ exports.getSafeFilename = async (storage, bucket, filename, folder = "") =>
       .slice(-1)
       .pop()
 
-    return splitName(typeof file !== "undefined" && file ? file : filename)
+    return typeof file !== "undefined" && file
+      ? incrementFilenameVersion(splitName(file))
+      : splitName(filename)
   })
