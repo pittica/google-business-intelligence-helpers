@@ -1,7 +1,7 @@
 {
   "name": "@pittica/google-business-intelligence-helpers",
   "private": false,
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Helpers for business intelligence for Google Cloud.",
   "main": "dist/index.js",
   "scripts": {

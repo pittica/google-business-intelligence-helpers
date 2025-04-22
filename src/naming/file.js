@@ -35,8 +35,15 @@ exports.getFilenameVersion = (name) => {
  * @returns {number} The given file data.
  */
 exports.incrementFilenameVersion = (filedata) => {
-  filedata.version =
-    typeof filedata.version !== "undefined" ? filedata.version + 1 : 1
+  if (typeof filedata.version !== "undefined") {
+    filedata.version = filedata.version + 1
+    filedata.fullname = filedata.fullname.replace(
+      /_\d+$/gs,
+      "_" + filedata.version
+    )
+  } else {
+    filedata.version = 1
+  }
 
   return filedata
 }

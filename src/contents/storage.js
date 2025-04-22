@@ -64,7 +64,9 @@ exports.getSafeFilename = async (storage, bucket, filename, folder = "") =>
     const file = response
       .flat(3)
       .filter(({ name }) => typeof name !== "undefined")
-      .map(({ name }) => name)
+      .map(({ name }) =>
+        folder ? name.replace(new RegExp(`^${folder}\/`, "gs"), "") : name
+      )
       .slice(-1)
       .pop()
 
