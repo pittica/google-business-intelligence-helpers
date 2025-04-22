@@ -86,7 +86,7 @@ exports.mergeFilename = (date, name, extension, version = 0) =>
  *
  * @param {object} filedata Data to merge.
  * @param {boolean} increment A value indicating whether the file version needs to be increased.
- * @returns The merged given filename data.
+ * @returns {string} The merged given filename data.
  */
 exports.mergeFiledata = (
   { date, name, extension, version },
