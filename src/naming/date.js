@@ -45,4 +45,15 @@ exports.stringToDate = (date) => {
  * @param {string} dateFormat Format string.
  * @returns {string} The current date in the given format.
  */
-exports.getNow = (dateFormat = "YYYY-MM-DD") => format(new Date(), dateFormat)
+exports.getNow = (dateFormat = "YYYY-MM-DD") =>
+  this.formatDate(new Date(), dateFormat)
+
+/**
+ * Gets the given date in the given format.
+ *
+ * @param {Date} date Date object.
+ * @param {string} dateFormat Format string.
+ * @returns {string} The given date in the given format.
+ */
+exports.formatDate = (date, dateFormat = "YYYY-MM-DD") =>
+  format(date, dateFormat)
