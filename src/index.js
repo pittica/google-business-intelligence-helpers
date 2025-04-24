@@ -21,6 +21,7 @@ const {
 const { getSqlFilePath } = require("./contents/sql")
 const {
   mapStorageResponse,
+  extractStorageResponse,
   getSafeFilename,
   getSafeFilenameFromBucket,
 } = require("./contents/storage")
@@ -47,6 +48,7 @@ exports.getSchemaKeys = getSchemaKeys
 exports.hasSchema = hasSchema
 exports.getSqlFilePath = getSqlFilePath
 exports.mapStorageResponse = mapStorageResponse
+exports.extractStorageResponse = extractStorageResponse
 exports.getSafeFilename = getSafeFilename
 exports.getSafeFilenameFromBucket = getSafeFilenameFromBucket
 exports.getTemporaryTableName = getTemporaryTableName

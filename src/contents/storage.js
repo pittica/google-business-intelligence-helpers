@@ -13,6 +13,7 @@
 // limitations under the License.
 
 const { getFiles } = require("@pittica/google-cloud-storage-helpers")
+const { format } = require("date-and-time")
 const { getSchemaKeys } = require("./schema")
 const { splitName } = require("../naming/split")
 const { incrementFilenameVersion } = require("../naming/file")
@@ -44,6 +45,43 @@ exports.mapStorageResponse = (response, schemas = "") => {
   return Object.values(files)
     .flat(1)
     .map((file) => splitName(file))
+}
+
+/**
+ * Maps the given response and returns grouped and ordered object to import.
+ *
+ * @param {Array} response Google Cloud Storage response.
+ * @param {string} schemas Schema files folder path.
+ * @param {string} dateFormat Format string.
+ * @returns {object} Bucket files.
+ */
+exports.extractStorageResponse = (
+  response,
+  schemas = "",
+  dateFormat = "YYYY-MM-DD"
+) => {
+  const days = {}
+  const files = this.mapStorageResponse(response, schemas)
+
+  files.forEach((file) => {
+    const date = format(file.date, dateFormat)
+
+    if (typeof days[date] === "undefined") {
+      days[date] = []
+    }
+
+    days[date].push(file)
+  })
+
+  return Object.values(
+    Object.keys(days)
+      .sort()
+      .reduce((obj, key) => {
+        obj[key] = days[key]
+
+        return obj
+      }, {})
+  ).flat()
 }
 
 /**
