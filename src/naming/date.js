@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const { format } = require("date-and-time")
+
 /**
  * Converts the file name parts to a date object.
  *
@@ -36,3 +38,11 @@ exports.stringToDate = (date) => {
 
   return null
 }
+
+/**
+ * Gets the current date in the given format.
+ *
+ * @param {string} dateFormat Format string.
+ * @returns {string} The current date in the given format.
+ */
+exports.getNow = (dateFormat = "YYYY-MM-DD") => format(new Date(), dateFormat)

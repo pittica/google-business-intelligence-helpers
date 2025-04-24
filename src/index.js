@@ -29,7 +29,7 @@ const {
   getTemporaryTableName,
   getTemporaryTableSuffix,
 } = require("./naming/dataset")
-const { partsToDate, stringToDate } = require("./naming/date")
+const { partsToDate, stringToDate, getNow } = require("./naming/date")
 const { isDataCsv } = require("./naming/schema")
 const {
   getFilenameVersion,
@@ -55,6 +55,7 @@ exports.getTemporaryTableName = getTemporaryTableName
 exports.getTemporaryTableSuffix = getTemporaryTableSuffix
 exports.partsToDate = partsToDate
 exports.stringToDate = stringToDate
+exports.getNow = getNow
 exports.isDataCsv = isDataCsv
 exports.getFilenameVersion = getFilenameVersion
 exports.incrementFilenameVersion = incrementFilenameVersion
