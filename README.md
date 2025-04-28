@@ -7,10 +7,6 @@
 
 Helpers for business intelligence for Google Cloud.
 
-## Overview
-
-This project uses [BigQuery](https://cloud.google.com/bigquery/docs) libraries.
-
 ## Copyright
 
 This project is licensed.
