@@ -31,7 +31,9 @@ const {
 } = require("./naming/dataset")
 const {
   partsToDate,
+  partsToDateUTC,
   stringToDate,
+  stringToDateUTC,
   getNow,
   formatDate,
 } = require("./naming/date")
@@ -59,7 +61,9 @@ exports.getSafeFilenameFromBucket = getSafeFilenameFromBucket
 exports.getTemporaryTableName = getTemporaryTableName
 exports.getTemporaryTableSuffix = getTemporaryTableSuffix
 exports.partsToDate = partsToDate
+exports.partsToDateUTC = partsToDateUTC
 exports.stringToDate = stringToDate
+exports.stringToDateUTC = stringToDateUTC
 exports.getNow = getNow
 exports.formatDate = formatDate
 exports.isDataCsv = isDataCsv

@@ -24,6 +24,17 @@ exports.partsToDate = (parts) =>
   new Date(parseInt(parts[1]), parseInt(parts[2]) - 1, parseInt(parts[3]))
 
 /**
+ * Converts the file name parts to an UTC date object.
+ *
+ * @param {Array} parts String array from regular expression split representing a date from file name.
+ * @returns {Date} The UTC date from the given array.
+ */
+exports.partsToDateUTC = (parts) =>
+  new Date(
+    Date.UTC(parseInt(parts[1]), parseInt(parts[2]) - 1, parseInt(parts[3]))
+  )
+
+/**
  * Extracts a date from the given date representation.
  *
  * @param {string} date Date in string format YYYY-MM-DD.
@@ -34,6 +45,22 @@ exports.stringToDate = (date) => {
 
   if (split.length === 5) {
     return this.partsToDate(split)
+  }
+
+  return null
+}
+
+/**
+ * Extracts an UTC date from the given date representation.
+ *
+ * @param {string} date Date in string format YYYY-MM-DD.
+ * @returns {Date} An UTC date from the given date representation.
+ */
+exports.stringToDateUTC = (date) => {
+  const split = date.split(/^(\d{4})\-(\d{2})\-(\d{2})$/gis)
+
+  if (split.length === 5) {
+    return this.partsToDateUTC(split)
   }
 
   return null
