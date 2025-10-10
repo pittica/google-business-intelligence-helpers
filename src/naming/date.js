@@ -84,3 +84,22 @@ exports.getNow = (dateFormat = "YYYY-MM-DD") =>
  */
 exports.formatDate = (date, dateFormat = "YYYY-MM-DD") =>
   format(date, dateFormat)
+
+/**
+ * Gets the dates from the beginning of the year of the given date.
+ *
+ * @param {Date} until The day at the end of the loop.
+ * @returns {Array} The dates from the beginning of the year of the given date.
+ */
+exports.getDatesUntil = (until = new Date()) => {
+  const dates = []
+  const year = until.getFullYear()
+  let current = new Date(Date.UTC(year, 0, 1))
+
+  while (current <= until && current.getFullYear() === year) {
+    dates.push(formatDate(new Date(current)))
+    current.setDate(current.getDate() + 1)
+  }
+
+  return dates
+}
