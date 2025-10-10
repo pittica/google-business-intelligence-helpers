@@ -97,7 +97,7 @@ exports.getDatesUntil = (until = new Date()) => {
   let current = new Date(Date.UTC(year, 0, 1))
 
   while (current <= until && current.getFullYear() === year) {
-    dates.push(formatDate(new Date(current)))
+    dates.push(this.formatDate(new Date(current)))
     current.setDate(current.getDate() + 1)
   }
 
