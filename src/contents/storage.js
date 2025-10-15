@@ -98,7 +98,7 @@ exports.getSafeFilename = (storage, bucket, filename, folder = "") =>
     (response) => {
       const file = response
         .flat(3)
-        .filter(({ name }) => typeof name !== "undefined")
+        .filter((value) => value && typeof value.name !== "undefined")
         .map(({ name }) =>
           folder ? name.replace(new RegExp(`^${folder}\/`, "gs"), "") : name
         )
