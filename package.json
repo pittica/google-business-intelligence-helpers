@@ -1,13 +1,13 @@
 {
   "name": "@pittica/google-business-intelligence-helpers",
   "private": false,
-  "version": "1.12.4",
+  "version": "1.12.5",
   "description": "Helpers for business intelligence for Google Cloud.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rimraf ./dist && mkdirp ./dist && babel src --out-dir dist --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "unlistened": "run-func ./dist/scripts/unlistened.js scriptUnlistened"
+    "unlistened": "npm run build && run-func ./dist/scripts/unlistened.js scriptUnlistened"
   },
   "repository": {
     "type": "git",
