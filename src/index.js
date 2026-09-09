@@ -48,7 +48,7 @@ const {
   mergeFiledata,
 } = require("./naming/file")
 const { splitName, splitIdByKeys } = require("./naming/split")
-const { scriptComparision } = require("./scripts/comparision")
+const { scriptComparison } = require("./scripts/comparison")
 const { scriptUnlistened } = require("./scripts/unlistened")
 
 exports.getSchemas = getSchemas
@@ -79,6 +79,6 @@ exports.mergeFiledata = mergeFiledata
 exports.splitName = splitName
 exports.splitIdByKeys = splitIdByKeys
 exports.scripts = {
-  comparision: scriptComparision,
+  comparison: scriptComparison,
   unlistened: scriptUnlistened,
 }

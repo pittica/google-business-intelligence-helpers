@@ -26,7 +26,7 @@ const { mergeFilename } = require("../naming/file")
  * @param {string} date Date to compare against.
  * @returns {Array} Array of files that are in the file but not in the bucket.
  */
-exports.scriptComparision = async (bucket, date = null) => {
+exports.scriptComparison = async (bucket, date = null) => {
   if (bucket) {
     const day = date ? stringToDateUTC(date) : new Date()
     const filename = mergeFilename(day, "filelist", "txt")
