@@ -36,7 +36,9 @@ const {
   stringToDateUTC,
   getNow,
   formatDate,
+  formatDateUTC,
   getDatesUntil,
+  getFormattedDate,
 } = require("./naming/date")
 const { isDataCsv } = require("./naming/schema")
 const {
@@ -68,7 +70,9 @@ exports.stringToDate = stringToDate
 exports.stringToDateUTC = stringToDateUTC
 exports.getNow = getNow
 exports.formatDate = formatDate
+exports.formatDateUTC = formatDateUTC
 exports.getDatesUntil = getDatesUntil
+exports.getFormattedDate = getFormattedDate
 exports.isDataCsv = isDataCsv
 exports.getFilenameVersion = getFilenameVersion
 exports.incrementFilenameVersion = incrementFilenameVersion

@@ -86,20 +86,52 @@ exports.formatDate = (date, dateFormat = "YYYY-MM-DD") =>
   format(date, dateFormat)
 
 /**
+ * Gets the given date in the given format UTC.
+ *
+ * @param {Date} date Date object.
+ * @param {string} dateFormat Format string.
+ * @returns {string} The given date in the given UTC format.
+ */
+exports.formatDateUTC = (date, dateFormat = "YYYY-MM-DD") =>
+  format(date, dateFormat, true)
+
+/**
  * Gets the dates from the beginning of the year of the given date.
  *
  * @param {Date} until The day at the end of the loop.
+ * @param {string} dateFormat Format string.
  * @returns {Array} The dates from the beginning of the year of the given date.
  */
-exports.getDatesUntil = (until = new Date()) => {
+exports.getDatesUntil = (until = new Date(), dateFormat = "YYYY-MM-DD") => {
   const dates = []
-  const year = until.getFullYear()
+  const year = until.getUTCFullYear()
   let current = new Date(Date.UTC(year, 0, 1))
 
-  while (current <= until && current.getFullYear() === year) {
-    dates.push(this.formatDate(new Date(current)))
-    current.setDate(current.getDate() + 1)
+  while (current <= until && current.getUTCFullYear() === year) {
+    dates.push(this.formatDateUTC(current, dateFormat))
+    current.setUTCDate(current.getUTCDate() + 1)
   }
 
   return dates
+}
+
+/**
+ * Gets the formatted date for the specified date or the previous day if no date is provided.
+ *
+ * @param {Date|string} date Date to format.
+ * @param {string} dateFormat Format string.
+ * @returns {string} Formatted date.
+ */
+exports.getFormattedDate = (date = null, dateFormat = "YYYY-MM-DD") => {
+  if (date != null) {
+    return this.formatDate(
+      typeof date === "string" ? this.stringToDate(date) : date,
+      dateFormat
+    )
+  } else {
+    const now = this.stringToDate(this.getNow())
+    now.setDate(now.getDate() - 1)
+
+    return this.formatDate(now, dateFormat)
+  }
 }
