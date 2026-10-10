@@ -125,12 +125,12 @@ exports.getDatesUntil = (until = new Date(), dateFormat = "YYYY-MM-DD") => {
 exports.getFormattedDate = (date = null, dateFormat = "YYYY-MM-DD") => {
   if (date != null) {
     return this.formatDate(
-      typeof date === "string" ? this.stringToDate(date) : date,
+      typeof date === "string" ? this.stringToDateUTC(date) : date,
       dateFormat
     )
   } else {
-    const now = this.stringToDate(this.getNow())
-    now.setDate(now.getDate() - 1)
+    const now = this.stringToDateUTC(this.getNow())
+    now.setDate(now.getDate())
 
     return this.formatDate(now, dateFormat)
   }
