@@ -29,11 +29,23 @@ exports.scriptBackup = backup
 /**
  * Creates a backup and erases the bucket.
  *
+ * @param {string} id BigQuery dataset ID.
+ * @param {string} bucket Bucket name.
+ * @param {string} projectId Google Cloud project ID.
  * @param {number} days Number of days to keep.
+ * @param {string} dateFormat Date format string.
  * @returns {boolean} A value indicating whehter the job has been done.
  */
-exports.scriptBackupErase = async (days) =>
-  await backup().then(async () => await erase(days))
+exports.scriptBackupErase = async (
+  id,
+  bucket,
+  projectId,
+  days,
+  dateFormat = "YYYY-MM-DD"
+) =>
+  await backup(id, bucket, projectId, dateFormat).then(
+    async () => await erase(bucket, days)
+  )
 
 /**
  * Rollback data using backup.
