@@ -14,6 +14,7 @@
 
 const fs = require("fs")
 const path = require("path")
+const { getTables } = require("@pittica/google-bigquery-helpers")
 
 /**
  * Maps and imports the contents of the given folder.
@@ -40,7 +41,7 @@ exports.getSchemas = (folder) => {
  * @returns {object} The content related to the given name.
  */
 exports.getSchema = (name, folder) => {
-  const contents = this.getSchemas(folder)
+  const contents = exports.getSchemas(folder)
 
   return Object.keys(contents).includes(name) ? contents[name] : null
 }
@@ -61,4 +62,44 @@ exports.getSchemaKeys = (folder) =>
  * @param {string} folder Path of the folder to scan.
  * @returns {boolean} A value indicating whether the given name has an associated content.
  */
-exports.hasSchema = (name, folder) => this.getSchemaKeys(folder).includes(name)
+exports.hasSchema = (name, folder) => exports.getSchemaKeys(folder).includes(name)
+
+/**
+ * Downloads the schemas of a dataset.
+ *
+ * @param {string} output Path to save files.
+ * @param {string} id The dataset name from which to download schemas.
+ * @param {string} projectId The project ID to which the dataset belongs.
+ */
+exports.downloadSchemas = async (output, id, projectId = null) => {
+  const tables = await getTables(id, { projectId })
+
+  tables.forEach(
+    async ({
+      dataset,
+      metadata: {
+        tableReference: { tableId },
+      },
+    }) => {
+      const [table] = await dataset.table(tableId).get()
+
+      const {
+        schema,
+        timePartitioning,
+        tableConstraints,
+        partitionDefinition,
+      } = table.metadata
+
+      fs.writeFileSync(
+        path.join(output, `${tableId}.json`),
+        JSON.stringify({
+          schema,
+          timePartitioning,
+          tableConstraints,
+          partitionDefinition,
+        }),
+        "utf8"
+      )
+    }
+  )
+}

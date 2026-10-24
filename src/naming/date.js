@@ -44,7 +44,7 @@ exports.stringToDate = (date) => {
   const split = date.split(/^(\d{4})\-(\d{2})\-(\d{2})$/gis)
 
   if (split.length === 5) {
-    return this.partsToDate(split)
+    return exports.partsToDate(split)
   }
 
   return null
@@ -60,7 +60,7 @@ exports.stringToDateUTC = (date) => {
   const split = date.split(/^(\d{4})\-(\d{2})\-(\d{2})$/gis)
 
   if (split.length === 5) {
-    return this.partsToDateUTC(split)
+    return exports.partsToDateUTC(split)
   }
 
   return null
@@ -73,7 +73,7 @@ exports.stringToDateUTC = (date) => {
  * @returns {string} The current date in the given format.
  */
 exports.getNow = (dateFormat = "YYYY-MM-DD") =>
-  this.formatDate(new Date(), dateFormat)
+  exports.formatDate(new Date(), dateFormat)
 
 /**
  * Gets the given date in the given format.
@@ -108,7 +108,7 @@ exports.getDatesUntil = (until = new Date(), dateFormat = "YYYY-MM-DD") => {
   let current = new Date(Date.UTC(year, 0, 1))
 
   while (current <= until && current.getUTCFullYear() === year) {
-    dates.push(this.formatDateUTC(current, dateFormat))
+    dates.push(exports.formatDateUTC(current, dateFormat))
     current.setUTCDate(current.getUTCDate() + 1)
   }
 
@@ -124,14 +124,14 @@ exports.getDatesUntil = (until = new Date(), dateFormat = "YYYY-MM-DD") => {
  */
 exports.getFormattedDate = (date = null, dateFormat = "YYYY-MM-DD") => {
   if (date != null) {
-    return this.formatDate(
-      typeof date === "string" ? this.stringToDateUTC(date) : date,
+    return exports.formatDate(
+      typeof date === "string" ? exports.stringToDateUTC(date) : date,
       dateFormat
     )
   } else {
-    const now = this.stringToDateUTC(this.getNow())
+    const now = exports.stringToDateUTC(exports.getNow())
     now.setDate(now.getDate())
 
-    return this.formatDate(now, dateFormat)
+    return exports.formatDate(now, dateFormat)
   }
 }

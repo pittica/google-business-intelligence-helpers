@@ -1,14 +1,20 @@
 {
   "name": "@pittica/google-business-intelligence-helpers",
   "private": false,
-  "version": "1.14.1",
+  "version": "1.15.0",
   "description": "Helpers for business intelligence for Google Cloud.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rimraf ./dist && mkdirp ./dist && babel src --out-dir dist --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1",
     "unlistened": "npm run build && run-func ./dist/scripts/unlistened.js scriptUnlistened",
-    "comparison": "npm run build && run-func ./dist/scripts/comparison.js scriptComparison"
+    "comparison": "npm run build && run-func ./dist/scripts/comparison.js scriptComparison",
+    "download-schema": "npm run build && run-func ./dist/scripts/schema.js scriptDownloadSchemas",
+    "implode": "npm run build && run-func ./dist/scripts/storage.js scriptImplode",
+    "erase": "npm run build && run-func ./dist/scripts/storage.js scriptErase",
+    "backup": "npm run build && run-func ./dist/scripts/backup.js scriptBackup",
+    "backup-erase": "npm run build && run-func ./dist/scripts/backup.js scriptBackupErase",
+    "rollback": "npm run build && run-func ./dist/scripts/backup.js scriptRollback"
   },
   "repository": {
     "type": "git",
@@ -30,8 +36,10 @@
     "node": ">=24.11.0"
   },
   "dependencies": {
+    "@pittica/google-bigquery-helpers": "^1.6.1",
     "@pittica/google-cloud-storage-helpers": "^1.5.0",
-    "date-and-time": "^4.6.0"
+    "@pittica/logger-helpers": "^1.2.2",
+    "date-and-time": "^4.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^8.0.6",

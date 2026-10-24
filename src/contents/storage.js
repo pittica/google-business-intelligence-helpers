@@ -12,8 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { getFiles } = require("@pittica/google-cloud-storage-helpers")
-const { format } = require("date-and-time")
+const {
+  getFiles,
+  downloadFolder,
+  groupJson,
+  getBucket,
+} = require("@pittica/google-cloud-storage-helpers")
+const log = require("@pittica/logger-helpers")
+const { format, parse } = require("date-and-time")
+const path = require("path")
+const fs = require("fs")
 const { getSchemaKeys } = require("./schema")
 const { splitName } = require("../naming/split")
 const { incrementFilenameVersion } = require("../naming/file")
@@ -61,7 +69,7 @@ exports.extractStorageResponse = (
   dateFormat = "YYYY-MM-DD"
 ) => {
   const days = {}
-  const files = this.mapStorageResponse(response, schemas)
+  const files = exports.mapStorageResponse(response, schemas)
 
   files.forEach((file) => {
     const date = format(file.date, dateFormat)
@@ -123,4 +131,85 @@ exports.getSafeFilenameFromBucket = (
   { storage, name },
   filename,
   folder = ""
-) => this.getSafeFilename(storage, name, filename, folder)
+) => exports.getSafeFilename(storage, name, filename, folder)
+
+/**
+ * Merges the files from a date and saves them in a local folder.
+ *
+ * @param {string} date Date to download in given format.
+ * @param {string} output Path to save files.
+ * @param {string} bucket Bucket name.
+ * @param {string} dateFormat Date format string.
+ */
+exports.implode = async (date, output, bucket, dateFormat = "YYYY-MM-DD") => {
+  const folder = format(parse(date, dateFormat), dateFormat)
+  const destination = path.join(output, ".tmp")
+  const temporary = path.join(destination, folder)
+
+  await downloadFolder(folder, bucket, destination)
+    .then(() =>
+      log.info(`Downloaded "gs://${bucket}/${folder}" to "${destination}".`)
+    )
+    .catch(log.error)
+
+  const files = groupJson(fs.readdirSync(temporary))
+
+  Object.keys(files).forEach((table) => {
+    const json = []
+
+    files[table].forEach((current) => {
+      const content = []
+
+      fs.readFileSync(path.join(temporary, current), { encoding: "utf8" })
+        .split("\n")
+        .forEach((line) => {
+          if (line) {
+            const result = JSON.parse(`[${line}]`)
+
+            return content.push(result[0])
+          }
+        })
+
+      json.push(content)
+    })
+
+    fs.writeFileSync(
+      path.join(output, `${table}.json`),
+      JSON.stringify(json.flat(1)),
+      "utf8"
+    )
+  })
+
+  fs.rmSync(destination, { recursive: true, force: true })
+
+  log.success(`JSON files created in "${output}".`)
+}
+
+/**
+ * Erases the bucket.
+ *
+ * @param {string} bucket Bucket name.
+ * @param {number} days Number of days to keep.
+ * @returns {boolean} A value indicating whehter the job has been done.
+ */
+exports.erase = async (bucket, days = process.env.BACKUP_KEEP_DAYS || 3) => {
+  const b = getBucket(bucket)
+
+  const [files] = await b.getFiles()
+  const result = {}
+
+  files.forEach(({ id }) => {
+    const split = id.split(/^(\d{4})\-(\d{2})\-(\d{2})/gis)
+
+    result[`${split[1]}-${split[2]}-${split[3]}`] = null
+  })
+
+  const folders = Object.keys(result).sort()
+  const blacklist = folders.slice(0, folders.length - parseInt(days))
+
+  blacklist.forEach(async (prefix) => await b.deleteFiles({ prefix }))
+
+  log.success("Backup bucket erased.")
+
+  return true
+}

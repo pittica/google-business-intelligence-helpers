@@ -30,4 +30,4 @@ exports.getTemporaryTableSuffix = (date) => format(date, "YYYY-MM-DD")
  * @returns {string} The name of a temporary table.
  */
 exports.getTemporaryTableName = ({ date, name, version }, prefix) =>
-  prefix + name + "-" + version + "-" + this.getTemporaryTableSuffix(date)
+  prefix + name + "-" + version + "-" + exports.getTemporaryTableSuffix(date)

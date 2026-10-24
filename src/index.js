@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const { backup, rollback } = require("./contents/backup")
 const {
   getSchemas,
   getSchema,
   getSchemaKeys,
   hasSchema,
+  downloadSchemas,
 } = require("./contents/schema")
 const { getSqlFilePath } = require("./contents/sql")
 const {
@@ -24,6 +26,8 @@ const {
   extractStorageResponse,
   getSafeFilename,
   getSafeFilenameFromBucket,
+  implode,
+  erase,
 } = require("./contents/storage")
 const {
   getTemporaryTableName,
@@ -52,16 +56,28 @@ const {
 const { splitName, splitIdByKeys } = require("./naming/split")
 const { scriptComparison } = require("./scripts/comparison")
 const { scriptUnlistened } = require("./scripts/unlistened")
+const { scriptDownloadSchemas } = require("./scripts/schema")
+const { scriptImplode, scriptErase } = require("./scripts/storage")
+const {
+  scriptBackup,
+  scriptBackupErase,
+  scriptRollback,
+} = require("./scripts/backup")
 
+exports.backup = backup
+exports.rollback = rollback
 exports.getSchemas = getSchemas
 exports.getSchema = getSchema
 exports.getSchemaKeys = getSchemaKeys
 exports.hasSchema = hasSchema
+exports.downloadSchemas = downloadSchemas
 exports.getSqlFilePath = getSqlFilePath
 exports.mapStorageResponse = mapStorageResponse
 exports.extractStorageResponse = extractStorageResponse
 exports.getSafeFilename = getSafeFilename
 exports.getSafeFilenameFromBucket = getSafeFilenameFromBucket
+exports.implode = implode
+exports.erase = erase
 exports.getTemporaryTableName = getTemporaryTableName
 exports.getTemporaryTableSuffix = getTemporaryTableSuffix
 exports.partsToDate = partsToDate
@@ -85,4 +101,10 @@ exports.splitIdByKeys = splitIdByKeys
 exports.scripts = {
   comparison: scriptComparison,
   unlistened: scriptUnlistened,
+  downloadSchemas: scriptDownloadSchemas,
+  implode: scriptImplode,
+  erase: scriptErase,
+  backup: scriptBackup,
+  backupErase: scriptBackupErase,
+  rollback: scriptRollback,
 }
