@@ -207,7 +207,9 @@ exports.erase = async (bucket, days = process.env.BACKUP_KEEP_DAYS || 3) => {
   const folders = Object.keys(result).sort()
   const blacklist = folders.slice(0, folders.length - parseInt(days))
 
-  blacklist.forEach(async (prefix) => await b.deleteFiles({ prefix }))
+  await Promise.all(
+    blacklist.map(async (prefix) => await b.deleteFiles({ prefix }))
+  )
 
   log.success("Backup bucket erased.")
 

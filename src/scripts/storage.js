@@ -23,6 +23,7 @@ const { implode, erase } = require("../contents/storage")
  * @param {string} dateFormat Date format string.
  */
 exports.scriptImplode = implode
+
 /**
  * Erases the bucket.
  *

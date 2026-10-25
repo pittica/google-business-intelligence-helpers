@@ -33,11 +33,11 @@ exports.scriptUnlistened = async (bucket, folder) => {
     const [files] = await getFiles(storage, bucket)
 
     if (files) {
-      files.forEach((file) => {
+      files.forEach(async (file) => {
         const { name } = splitName(file.id)
 
         if (!hasSchema(name, folder)) {
-          deleteFile(file)
+          await deleteFile(file)
         }
       })
     }
