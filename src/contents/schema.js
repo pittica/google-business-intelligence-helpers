@@ -62,7 +62,8 @@ exports.getSchemaKeys = (folder) =>
  * @param {string} folder Path of the folder to scan.
  * @returns {boolean} A value indicating whether the given name has an associated content.
  */
-exports.hasSchema = (name, folder) => exports.getSchemaKeys(folder).includes(name)
+exports.hasSchema = (name, folder) =>
+  exports.getSchemaKeys(folder).includes(name)
 
 /**
  * Downloads the schemas of a dataset.

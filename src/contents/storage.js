@@ -140,13 +140,20 @@ exports.getSafeFilenameFromBucket = (
  * @param {string} output Path to save files.
  * @param {string} bucket Bucket name.
  * @param {string} dateFormat Date format string.
+ * @param {string} projectId Optional project ID.
  */
-exports.implode = async (date, output, bucket, dateFormat = "YYYY-MM-DD") => {
+exports.implode = async (
+  date,
+  output,
+  bucket,
+  dateFormat = "YYYY-MM-DD",
+  projectId = null
+) => {
   const folder = format(parse(date, dateFormat), dateFormat)
   const destination = path.join(output, ".tmp")
   const temporary = path.join(destination, folder)
 
-  await downloadFolder(folder, bucket, destination)
+  await downloadFolder(folder, bucket, destination, projectId)
     .then(() =>
       log.info(`Downloaded "gs://${bucket}/${folder}" to "${destination}".`)
     )
@@ -190,10 +197,15 @@ exports.implode = async (date, output, bucket, dateFormat = "YYYY-MM-DD") => {
  *
  * @param {string} bucket Bucket name.
  * @param {number} days Number of days to keep.
+ * @param {string} projectId Optional project ID.
  * @returns {boolean} A value indicating whehter the job has been done.
  */
-exports.erase = async (bucket, days = process.env.BACKUP_KEEP_DAYS || 3) => {
-  const b = getBucket(bucket)
+exports.erase = async (
+  bucket,
+  days = process.env.BACKUP_KEEP_DAYS || 3,
+  projectId = null
+) => {
+  const b = getBucket(bucket, projectId)
 
   const [files] = await b.getFiles()
   const result = {}

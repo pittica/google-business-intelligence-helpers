@@ -21,6 +21,7 @@ const { implode, erase } = require("../contents/storage")
  * @param {string} output Path to save files.
  * @param {string} bucket Bucket name.
  * @param {string} dateFormat Date format string.
+ * @param {string} projectId Optional project ID.
  */
 exports.scriptImplode = implode
 
@@ -29,6 +30,7 @@ exports.scriptImplode = implode
  *
  * @param {string} bucket Bucket name.
  * @param {number} days Number of days to keep.
+ * @param {string} projectId Optional project ID.
  * @returns {boolean} A value indicating whehter the job has been done.
  */
 exports.scriptErase = erase

@@ -33,7 +33,12 @@ const { format } = require("date-and-time")
  * @param {string} dateFormat Date format string.
  * @returns {boolean} A value indicating whehter the job has been done.
  */
-exports.backup = async (id, bucket, projectId, dateFormat = "YYYY-MM-DD") => {
+exports.backup = async (
+  id,
+  bucket,
+  projectId = null,
+  dateFormat = "YYYY-MM-DD"
+) => {
   const dataset = await getDataset(id, { projectId })
   const [tables] = await dataset.getTables()
   const date = format(new Date(), dateFormat)
@@ -43,7 +48,8 @@ exports.backup = async (id, bucket, projectId, dateFormat = "YYYY-MM-DD") => {
     date,
     tables,
     0,
-    dataset.metadata.location
+    dataset.metadata.location,
+    projectId
   )
 }
 
@@ -55,6 +61,7 @@ exports.backup = async (id, bucket, projectId, dateFormat = "YYYY-MM-DD") => {
  * @param {Array} tables An array of BigQuery tables.
  * @param {number} index Array index.
  * @param {string} location Location of the BigQuery dataset.
+ * @param {string} projectId Google Cloud project ID.
  * @returns {boolean} A value indicating whehter the job has been done.
  */
 exports.extract = async (
@@ -62,17 +69,21 @@ exports.extract = async (
   date,
   tables,
   index = 0,
-  location = "us-central1"
+  location = "us-central1",
+  projectId = null
 ) => {
   if (index < tables.length) {
     const table = tables[index]
 
     return await table
-      .extract(getBucket(bucket).file(`${date}/${table.id}-*.json`), {
-        location,
-        format: "json",
-        gzip: false,
-      })
+      .extract(
+        getBucket(bucket, projectId).file(`${date}/${table.id}-*.json`),
+        {
+          location,
+          format: "json",
+          gzip: false,
+        }
+      )
       .then(async (response) => {
         if (jobDone(response)) {
           const [job] = response
@@ -84,7 +95,8 @@ exports.extract = async (
             date,
             tables,
             index + 1,
-            location
+            location,
+            projectId
           )
         } else {
           return false

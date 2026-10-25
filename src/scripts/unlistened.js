@@ -25,11 +25,11 @@ const { splitName } = require("../naming/split")
  *
  * @param {string} bucket Bucket name.
  * @param {string} folder Path of the local folder to scan for schemas.
- * @returns {void}
+ * @param {string} projectId Optional project ID.
  */
-exports.scriptUnlistened = async (bucket, folder) => {
+exports.scriptUnlistened = async (bucket, folder, projectId = null) => {
   if (bucket) {
-    const storage = getStorage()
+    const storage = getStorage(projectId)
     const [files] = await getFiles(storage, bucket)
 
     if (files) {

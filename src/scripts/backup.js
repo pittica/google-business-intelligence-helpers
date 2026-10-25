@@ -44,7 +44,7 @@ exports.scriptBackupErase = async (
   dateFormat = "YYYY-MM-DD"
 ) =>
   await backup(id, bucket, projectId, dateFormat).then(
-    async () => await erase(bucket, days)
+    async () => await erase(bucket, days, projectId)
   )
 
 /**

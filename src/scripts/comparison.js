@@ -24,14 +24,15 @@ const { mergeFilename } = require("../naming/file")
  *
  * @param {string} bucket Bucket name.
  * @param {string} date Date to compare against.
+ * @param {string} projectId Google Cloud project ID.
  * @returns {Array} Array of files that are in the file but not in the bucket.
  */
-exports.scriptComparison = async (bucket, date = null) => {
+exports.scriptComparison = async (bucket, date = null, projectId = null) => {
   if (bucket) {
     const day = date ? stringToDateUTC(date) : new Date()
     const filename = mergeFilename(day, "filelist", "txt")
-    const content = await txtContentToArray(filename, bucket)
-    const files = await listFiles(bucket)
+    const content = await txtContentToArray(filename, bucket, projectId)
+    const files = await listFiles(bucket, null, projectId)
 
     return content.filter((file) => !files.includes(file))
   }
