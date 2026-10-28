@@ -101,12 +101,19 @@ exports.extractStorageResponse = (
  * @param {string} folder Google Storage folder path.
  * @returns {object} A safe name of a file in the given folder in the given bucket.
  */
-exports.getSafeFilename = (storage, bucket, filename, folder = "") =>
-  getFiles(storage, bucket, folder ? `${folder}/${filename}` : filename).then(
+exports.getSafeFilename = (storage, bucket, filename, folder = "") => {
+  const { name, ext } = path.parse(filename)
+  const regex = new RegExp(`${name}(_\\d+)?\\${ext}$`, "gs")
+
+  return getFiles(storage, bucket, folder ? `${folder}/${name}` : name).then(
     (response) => {
-      const file = response
+      const [files] = response
+      const file = files
         .flat(3)
-        .filter((value) => value && typeof value.name !== "undefined")
+        .filter(
+          (value) =>
+            value && typeof value.name !== "undefined" && regex.test(value.name)
+        )
         .map(({ name }) =>
           folder ? name.replace(new RegExp(`^${folder}\/`, "gs"), "") : name
         )
@@ -118,6 +125,7 @@ exports.getSafeFilename = (storage, bucket, filename, folder = "") =>
         : splitName(filename)
     }
   )
+}
 
 /**
  * Ritrieves a safe name of a file in the given folder in the given bucket.

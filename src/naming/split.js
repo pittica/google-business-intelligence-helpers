@@ -13,7 +13,7 @@
 // limitations under the License.
 
 const { getFilenameVersion } = require("./file")
-const { partsToDate } = require("./date")
+const { partsToDateUTC } = require("./date")
 
 /**
  * Splits the given filename.
@@ -29,7 +29,7 @@ exports.splitName = (name) => {
 
     if (split.length >= 8) {
       return {
-        date: partsToDate(split),
+        date: partsToDateUTC(split),
         name: typeof split[5] !== "undefined" ? split[5] : split[6],
         fullname: typeof split[4] !== "undefined" ? split[4] : name,
         extension: split[7],
