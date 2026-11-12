@@ -62,12 +62,11 @@ exports.getJsonStorageName = (date, file) =>
  * Generates a filename from the givend data.
  *
  * @param {object} filedata File data.
+ * @param {string} format Date format.
  * @returns {string} A filename from the givend data.
  */
-exports.createFilename = (filedata) =>
-  `${format(filedata.date, "YYYY-MM-DD")}-${filedata.fullname}.${
-    filedata.extension
-  }`
+exports.createFilename = (filedata, format = "YYYY-MM-DD") =>
+  `${format(filedata.date, format)}-${filedata.fullname}.${filedata.extension}`
 
 /**
  * Merges the given filename parts.
@@ -76,10 +75,17 @@ exports.createFilename = (filedata) =>
  * @param {string} name File or function name.
  * @param {string} extension File extension.
  * @param {int} version File version.
+ * @param {string} format Date format.
  * @returns {string} The merged given filename parts.
  */
-exports.mergeFilename = (date, name, extension, version = 0) =>
-  `${format(date, "YYYY-MM-DD")}-${name}${version ? `_${version}` : ""}.${extension.toLowerCase()}`
+exports.mergeFilename = (
+  date,
+  name,
+  extension,
+  version = 0,
+  format = "YYYY-MM-DD"
+) =>
+  `${format(date, format)}-${name}${version ? `_${version}` : ""}.${extension.toLowerCase()}`
 
 /**
  * Merges the given filename data.
@@ -98,3 +104,13 @@ exports.mergeFiledata = (
     extension,
     increment ? (typeof version !== "undefined" ? version + 1 : 1) : version
   )
+
+/**
+ * Checks if two file data objects have matching filenames.
+ *
+ * @param {object} first First object compare.
+ * @param {object} second Second object compare.
+ * @returns {boolean} True if the filenames match, false otherwise.
+ */
+exports.isFiledataMatch = (first, second) =>
+  exports.mergeFilename(first) === exports.mergeFilename(second)
