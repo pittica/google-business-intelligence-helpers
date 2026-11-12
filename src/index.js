@@ -53,6 +53,7 @@ const {
   mergeFilename,
   mergeFiledata,
   isFiledataMatch,
+  safeFilenamesProcess,
 } = require("./naming/file")
 const { splitName, splitIdByKeys } = require("./naming/split")
 const { scriptComparison } = require("./scripts/comparison")
@@ -98,6 +99,7 @@ exports.createFilename = createFilename
 exports.mergeFilename = mergeFilename
 exports.mergeFiledata = mergeFiledata
 exports.isFiledataMatch = isFiledataMatch
+exports.safeFilenamesProcess = safeFilenamesProcess
 exports.splitName = splitName
 exports.splitIdByKeys = splitIdByKeys
 exports.scripts = {
