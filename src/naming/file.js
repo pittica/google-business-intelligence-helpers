@@ -62,11 +62,11 @@ exports.getJsonStorageName = (date, file) =>
  * Generates a filename from the givend data.
  *
  * @param {object} filedata File data.
- * @param {string} format Date format.
+ * @param {string} dateFormat Date format.
  * @returns {string} A filename from the givend data.
  */
-exports.createFilename = (filedata, format = "YYYY-MM-DD") =>
-  `${format(filedata.date, format)}-${filedata.fullname}.${filedata.extension}`
+exports.createFilename = (filedata, dateFormat = "YYYY-MM-DD") =>
+  `${format(filedata.date, dateFormat)}-${filedata.fullname}.${filedata.extension}`
 
 /**
  * Merges the given filename parts.
@@ -75,7 +75,7 @@ exports.createFilename = (filedata, format = "YYYY-MM-DD") =>
  * @param {string} name File or function name.
  * @param {string} extension File extension.
  * @param {int} version File version.
- * @param {string} format Date format.
+ * @param {string} dateFormat Date format.
  * @returns {string} The merged given filename parts.
  */
 exports.mergeFilename = (
@@ -83,9 +83,9 @@ exports.mergeFilename = (
   name,
   extension,
   version = 0,
-  format = "YYYY-MM-DD"
+  dateFormat = "YYYY-MM-DD"
 ) =>
-  `${format(date, format)}-${name}${version ? `_${version}` : ""}.${extension.toLowerCase()}`
+  `${format(date, dateFormat)}-${name}${version ? `_${version}` : ""}.${extension.toLowerCase()}`
 
 /**
  * Merges the given filename data.
