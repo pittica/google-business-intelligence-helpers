@@ -53,8 +53,8 @@ const {
   mergeFilename,
   mergeFiledata,
   isFiledataMatch,
-  safeFilenamesProcess,
 } = require("./naming/file")
+const { safeFilenamesProcess } = require("./naming/collection")
 const { splitName, splitIdByKeys } = require("./naming/split")
 const { scriptComparison } = require("./scripts/comparison")
 const { scriptUnlistened } = require("./scripts/unlistened")

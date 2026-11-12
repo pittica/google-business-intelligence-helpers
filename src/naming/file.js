@@ -114,17 +114,3 @@ exports.mergeFiledata = (
  */
 exports.isFiledataMatch = (first, second) =>
   exports.mergeFilename(first) === exports.mergeFilename(second)
-
-/**
- * Processes filenames safely based on the provided configuration.
- *
- * @param {Array} files Array of file objects.
- * @param {Array} configuration Array of allowed filenames.
- * @returns {Array} Array of processed filenames.
- * @since 1.17.0
- */
-exports.safeFilenamesProcess = (files, configuration = []) =>
-  files
-    .map((file) => splitName(file))
-    .filter((file) => configuration.includes(file.name))
-    .map((file) => mergeFiledata(file))
